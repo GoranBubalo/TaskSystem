@@ -12,6 +12,7 @@ TaskFlow je distribuirani sustav za upravljanje zadacima koji omogućuje korisni
 - Redis 
 - PostgreSQL
 - Docker 
+- oAuth 2.0
 
 ### Namjena tehnologije 
 - FastAPI - Za izgradnju REST API-ja.
