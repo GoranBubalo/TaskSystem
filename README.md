@@ -1,8 +1,19 @@
 # TaskSystem
+--- 
+### Taskflow
 TaskFlow je distribuirani sustav za upravljanje zadacima koji omogućuje korisnicima dodavanje, ažuriranje, brisanje i pregledavanje zadataka putem REST API-ja.
+
+### Opis
  Aplikacija koristi distribuiranu obradu zadataka pomoću distribuiranih radnika, koji su odgovorni za obradu i ažuriranje statusa zadataka u sustavu. Korištenjem reda zadataka (queue), sustav omogućuje skalabilnost i visoku dostupnost, čime se omogućava učinkovito upravljanje velikim brojem korisnika i zadataka.
 
-Tehnologije korištene u aplikaciji:
+### Tehnologije
+- FastAPI 
+- Celery 
+- Redis 
+- PostgreSQL
+- Docker 
+
+### Namjena tehnologije 
 - FastAPI - Za izgradnju REST API-ja.
 - Celery - Za raspodijeljenu obradu zadataka.
 - Redis - Za pohranu podataka o zadacima i za red zadataka (task queue).
