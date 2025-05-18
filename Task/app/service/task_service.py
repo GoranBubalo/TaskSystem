@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional, Tuple, Dict, Any
 
 from Task.app.repository.task_repository import TaskRepository
-from Task.app.dto.task_schema import TaskCreate, TaskUpdate, TaskResponse, TaskList
+from Task.app.dto.task_dto import TaskCreate, TaskUpdate, TaskResponse, TaskList
 
 
 class TaskService:

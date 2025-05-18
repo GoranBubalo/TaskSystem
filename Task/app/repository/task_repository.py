@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional, Tuple
 
 from Task.app.model.task import Task
-from Task.app.dto.task_schema import TaskCreate, TaskUpdate
+from Task.app.dto.task_dto import TaskCreate, TaskUpdate
 
 
 class TaskRepository:

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 
 from User.app.repository.user_repository import UserRepository
-from User.app.dto.user_schema import UserCreate, UserUpdate, UserResponse
+from User.app.dto.user_dto import UserCreate, UserUpdate, UserResponse
 
 
 class UserService:
