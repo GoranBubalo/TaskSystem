@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # API service
+  api:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - taskflow-network
+
+  # Celery worker
+  worker:
+    build: .
+    command: celery -A celery_app worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - api
+      - redis
+      - postgres
+    networks:
+      - taskflow-network
+
+  # Celery beat for scheduled tasks
+  beat:
+    build: .
+    command: celery -A celery_app beat --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - api
+      - redis
+      - postgres
+    networks:
+      - taskflow-network
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=taskflow
+    ports:
+      - "5432:5432"
+    networks:
+      - taskflow-network
+
+  # Redis for Celery broker and cache
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - taskflow-network
+
+  # Flower for monitoring Celery tasks
+  flower:
+    build: .
+    command: celery -A celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - api
+      - redis
+      - worker
+    networks:
+      - taskflow-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  taskflow-network:
+    driver: bridge
