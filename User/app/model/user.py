@@ -3,12 +3,12 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from User.app.model.base import Base
-
+from uuid_generator import v4_generator 
 
 class User(Base):
     __tablename__ = "users"
-    # TODO : Refactor code 
-    id = Column(Integer, primary_key=True, index=True)
+    
+    id = Column(String, primary_key=True,  default=v4_generator, index=True)
     username = Column(String, unique=True, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)

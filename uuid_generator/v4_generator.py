@@ -1,1 +1,4 @@
-### TODO: Add UUID logic and id field that will replace the id field in Task and User 
+import uuid
+
+def generate_uuid():
+    return str(uuid.uuid4())
