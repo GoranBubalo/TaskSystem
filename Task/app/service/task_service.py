@@ -1,16 +1,17 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional, Tuple, Dict, Any
+from Task.app.enum import TaskStatus, TaskPriority
 
 from Task.app.repository.task_repository import TaskRepository
 from Task.app.dto.task_dto import TaskCreate, TaskUpdate, TaskResponse, TaskList
 
-
+# TODO: Service - > add enum validation for task status and priority 
 class TaskService:
     def __init__(self):
         self.task_repository = TaskRepository()
 
-    def create_task(self, db: Session, task: TaskCreate, user_id: int) -> TaskResponse:
+    def create_task(self, db: Session, task: TaskCreate, user_id: str) -> TaskResponse:
         """Create a new task"""
         # Validate parent task if provided
         if task.parent_id:
@@ -30,7 +31,7 @@ class TaskService:
         # Create new task
         return self.task_repository.create_task(db, task, user_id)
 
-    def get_task(self, db: Session, task_id: int, user_id: int) -> TaskResponse:
+    def get_task(self, db: Session, task_id: str, user_id: str) -> TaskResponse:
         """Get a task by ID, ensuring it belongs to the user"""
         db_task = self.task_repository.get_task_by_id(db, task_id)
         if not db_task:
@@ -51,7 +52,7 @@ class TaskService:
     def get_user_tasks(
         self, 
         db: Session, 
-        user_id: int, 
+        user_id: str, 
         skip: int = 0, 
         limit: int = 10, 
         status: Optional[str] = None,
@@ -72,7 +73,7 @@ class TaskService:
     def get_assigned_tasks(
         self, 
         db: Session, 
-        user_id: int,
+        user_id: str,
         skip: int = 0, 
         limit: int = 10, 
         status: Optional[str] = None
@@ -89,7 +90,7 @@ class TaskService:
             size=limit
         )
 
-    def update_task(self, db: Session, task_id: int, task_update: TaskUpdate, user_id: int) -> TaskResponse:
+    def update_task(self, db: Session, task_id: str, task_update: TaskUpdate, user_id: str) -> TaskResponse:
         """Update a task, ensuring it belongs to the user"""
         db_task = self.task_repository.get_task_by_id(db, task_id)
         if not db_task:
@@ -127,3 +128,10 @@ class TaskService:
             )
         
         return self.task_repository.delete_task(db, task_id)
+
+def validate_enum(value: Optional[str], enum_class: type, field_name: str):
+    if value and value not in [e.value for e in enum_class]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid {field_name}. Expected values: {[e.value for e in enum_class]}"
+        )
