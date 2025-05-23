@@ -54,7 +54,7 @@ def read_assigned_tasks(
 
 @router.get("/tasks/{task_id}", response_model=TaskResponse)
 def read_task(
-    task_id: int,
+    task_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
@@ -64,7 +64,7 @@ def read_task(
 
 @router.put("/tasks/{task_id}", response_model=TaskResponse)
 def update_task(
-    task_id: int,
+    task_id: str,
     task_update: TaskUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -75,7 +75,7 @@ def update_task(
 
 @router.delete("/tasks/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_task(
-    task_id: int,
+    task_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
