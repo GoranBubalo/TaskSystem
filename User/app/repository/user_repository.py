@@ -21,7 +21,7 @@ class UserRepository:
         db.refresh(db_user)
         return db_user
 
-    def get_user_by_id(self, db: Session, user_id: int) -> Optional[User]:
+    def get_user_by_id(self, db: Session, user_id: str) -> Optional[User]:
         """Get a user by ID"""
         return db.query(User).filter(User.id == user_id).first()
 
@@ -37,7 +37,7 @@ class UserRepository:
         """Get a list of users"""
         return db.query(User).offset(skip).limit(limit).all()
 
-    def update_user(self, db: Session, user_id: int, user_update: UserUpdate) -> Optional[User]:
+    def update_user(self, db: Session, user_id: str, user_update: UserUpdate) -> Optional[User]:
         """Update a user"""
         db_user = self.get_user_by_id(db, user_id)
         if not db_user:
@@ -51,7 +51,7 @@ class UserRepository:
         db.refresh(db_user)
         return db_user
 
-    def delete_user(self, db: Session, user_id: int) -> bool:
+    def delete_user(self, db: Session, user_id: str) -> bool:
         """Delete a user"""
         db_user = self.get_user_by_id(db, user_id)
         if not db_user:
@@ -61,7 +61,7 @@ class UserRepository:
         db.commit()
         return True
 
-    def update_last_login(self, db: Session, user_id: int) -> Optional[User]:
+    def update_last_login(self, db: Session, user_id: str) -> Optional[User]:
         """Update the last login timestamp"""
         db_user = self.get_user_by_id(db, user_id)
         if not db_user:

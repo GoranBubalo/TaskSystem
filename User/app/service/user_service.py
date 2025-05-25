@@ -23,7 +23,7 @@ class UserService:
         
         return self.user_repository.create_user(db, user)
 
-    def get_user(self, db: Session, user_id: int) -> UserResponse:
+    def get_user(self, db: Session, user_id: str) -> UserResponse:
         db_user = self.user_repository.get_user_by_id(db, user_id)
         if not db_user:
             raise UserNotFoundException()
@@ -32,7 +32,7 @@ class UserService:
     def get_users(self, db: Session, skip: int = 0, limit: int = 100) -> List[UserResponse]:
         return self.user_repository.get_users(db, skip, limit)
 
-    def update_user(self, db: Session, user_id: int, user_update: UserUpdate) -> UserResponse:
+    def update_user(self, db: Session, user_id: str, user_update: UserUpdate) -> UserResponse:
         if user_update.username:
             db_user = self.user_repository.get_user_by_username(db, user_update.username)
             if db_user and db_user.id != user_id:
@@ -48,7 +48,7 @@ class UserService:
             raise UserNotFoundException()
         return db_user
 
-    def delete_user(self, db: Session, user_id: int) -> bool:
+    def delete_user(self, db: Session, user_id: str) -> bool:
         result = self.user_repository.delete_user(db, user_id)
         if not result:
             raise UserNotFoundException()

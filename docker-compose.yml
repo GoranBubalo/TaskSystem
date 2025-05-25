@@ -37,7 +37,7 @@ services:
   # Celery beat for scheduled tasks
   beat:
     build: .
-    command: celery -A celery_app beat --loglevel=info
+    command: celery -A celery_app beat --loglevel=info --schedule=/tmp/celerybeat-schedule
     volumes:
       - .:/app
     environment:

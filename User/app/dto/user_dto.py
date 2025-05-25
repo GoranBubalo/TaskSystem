@@ -21,7 +21,7 @@ class UserUpdate(BaseModel):
 
 
 class UserInDB(UserBase):
-    id: int
+    id: str
     is_active: bool
     is_verified: bool
     is_admin: bool
@@ -34,7 +34,7 @@ class UserInDB(UserBase):
 
 
 class UserResponse(UserBase):
-    id: int
+    id: str 
     is_active: bool
     is_verified: bool
     created_at: datetime

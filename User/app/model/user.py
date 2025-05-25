@@ -26,7 +26,9 @@ class User(Base):
     
     # Relationships
     tasks = relationship("Task", back_populates="user", foreign_keys="Task.user_id")
+    assigned_tasks = relationship("Task", back_populates="assignee", foreign_keys="Task.assigned_to")
     
     # OAuth related fields (optional)
     oauth_provider = Column(String, nullable=True)  # 'google', 'github', etc.
     oauth_id = Column(String, nullable=True)
+
