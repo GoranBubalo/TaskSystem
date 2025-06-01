@@ -1,9 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
 
 # Import sub-applications
 from User.app import app as user_app
 from Task.app import app as task_app
+
+# Load environment variables based on ENV
+ENV = os.getenv("ENV", "dev")  # Default to 'dev'
+env_files = {
+    "dev": ".env.dev",
+    "test": ".env.test",
+    "prod": ".env.prod"
+}
+env_file = env_files.get(ENV, ".env.dev")
+load_dotenv(env_file)
+
+# Application settings
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+PORT = int(os.getenv("PROD_PORT", "8000")) if os.getenv("STATUS", "development") == "production" else int(os.getenv("DEV_PORT", "7000"))
 
 # Create main application
 app = FastAPI(
@@ -39,4 +55,4 @@ def read_root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)

@@ -11,6 +11,8 @@ from User.app.model.user import User
 from database import get_db
 import os
 
+
+
 # Security configurations
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:

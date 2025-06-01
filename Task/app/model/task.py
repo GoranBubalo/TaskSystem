@@ -6,13 +6,13 @@ from sqlalchemy import Enum as SqlEnum
 from Task.app.enum.task_priority import TaskPriority
 from Task.app.enum.task_status import TaskStatus
 from Task.app.model.base import Base
-from uuid_generator import v4_generator 
+from uuid_generator.v4_generator import generate_uuid
 
 
 class Task(Base):
     __tablename__ = "tasks"
     
-    id = Column(String, primary_key=True,  default=v4_generator, index=True) 
+    id = Column(String, primary_key=True,  default=generate_uuid, index=True) 
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     status = Column(SqlEnum(TaskStatus), default=TaskStatus.PENDING, nullable=False)

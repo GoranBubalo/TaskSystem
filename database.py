@@ -3,10 +3,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-### TODO: Refactor this code to use environment variables for sensitive data ###
-
-# Get database URL from environment variables or use default
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@postgres/taskflow")
+# Get database URL from environment variables (no default)
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL must be set in environment variables")
 
 # Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
