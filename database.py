@@ -3,18 +3,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Get database URL from environment variables (no default)
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise ValueError("DATABASE_URL must be set in environment variables")
-
-# Create SQLAlchemy engine
+# Ažuriraj da koristi RDS umjesto lokalne baze podataka
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/taskflow") 
 engine = create_engine(DATABASE_URL)
-
-# Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-# Function to get a database session
 def get_db():
     db = SessionLocal()
     try:
