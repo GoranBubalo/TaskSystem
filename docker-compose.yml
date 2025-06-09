@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   # API service
@@ -12,6 +12,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
       - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=ab34f68038a4c1eb98c8528a7fd36ee46b90ec2a959a1a018f6407d555f83841
     depends_on:
       - postgres
       - redis

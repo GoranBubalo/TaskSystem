@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel
-from enum.task_priority import TaskPriority
-from enum.task_status import TaskStatus
+from Task.app.enum.task_priority import TaskPriority
+from Task.app.enum.task_status import TaskStatus
 
 
 class TaskBase(BaseModel):
