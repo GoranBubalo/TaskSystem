@@ -1,14 +1,33 @@
 
 
 services:
-  # API service
-  api:
-    build: .
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+  # User API service
+  user-api:
+    build: 
+      context: .
+      dockerfile: User/dockerfile
+    command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=ab34f68038a4c1eb98c8528a7fd36ee46b90ec2a959a1a018f6407d555f83841
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - taskflow-network
+    # task-api service
+  task-api:
+    build: 
+      context: .
+      dockerfile: Task/dockerfile
+    command: uvicorn main:app --host 0.0.0.0 --port 8002 --reload
+    ports:
+      - "8002:8002"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
       - REDIS_URL=redis://redis:6379/0

@@ -31,7 +31,7 @@ class Task(Base):
     
     # For task assignment to other users (optional)
     assigned_to = Column(String, ForeignKey("users.id"), nullable=True)
-    assignee = relationship("User", foreign_keys=[assigned_to], backref="assigned_tasks")
+    assignee = relationship("User", foreign_keys=[assigned_to], back_populates="assigned_tasks")
     
     # For task completion tracking
     is_completed = Column(Boolean, default=False)

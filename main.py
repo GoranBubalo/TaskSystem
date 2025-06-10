@@ -2,10 +2,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
+from database import engine
 
 # Import sub-applications
 from User.app import app as user_app
 from Task.app import app as task_app
+
+from User.app.model.base import Base as UserBase
+from Task.app.model.base import Base as TaskBase
+
+
 
 # Load environment variables based on ENV
 ENV = os.getenv("ENV", "dev")  # Default to 'dev'
@@ -40,6 +46,10 @@ app.add_middleware(
 # Mount sub-applications
 app.mount("/user", user_app)
 app.mount("/task", task_app)
+
+# Create database tables
+UserBase.metadata.create_all(bind=engine)
+TaskBase.metadata.create_all(bind=engine)
 
 # Root endpoint
 @app.get("/")
