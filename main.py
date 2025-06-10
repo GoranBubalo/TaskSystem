@@ -47,9 +47,12 @@ app.add_middleware(
 app.mount("/user", user_app)
 app.mount("/task", task_app)
 
-# Create database tables
-UserBase.metadata.create_all(bind=engine)
-TaskBase.metadata.create_all(bind=engine)
+# Create database tables (combined metadata)
+from sqlalchemy import MetaData
+combined_metadata = MetaData()
+combined_metadata.reflect(bind=engine)  # Reflect existing tables
+UserBase.metadata.create_all(bind=engine, checkfirst=True)
+TaskBase.metadata.create_all(bind=engine, checkfirst=True)
 
 # Root endpoint
 @app.get("/")
