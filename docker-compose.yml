@@ -48,7 +48,8 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
       - REDIS_URL=redis://redis:6379/0
     depends_on:
-      - api
+      - user-api
+      - task-api
       - redis
       - postgres
     networks:
@@ -64,7 +65,8 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres/taskflow
       - REDIS_URL=redis://redis:6379/0
     depends_on:
-      - api
+      - user-api
+      - task-api
       - redis
       - postgres
     networks:
@@ -103,7 +105,8 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379/0
     depends_on:
-      - api
+      - user-api
+      - task-api
       - redis
       - worker
     networks:
