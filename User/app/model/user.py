@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-from User.app.model.base import Base
+from base import Base
 from uuid_generator.v4_generator import generate_uuid
 
 class User(Base):

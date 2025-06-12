@@ -4,8 +4,6 @@ from typing import List, Optional
 
 from User.app.model.user import User
 from User.app.dto.user_dto import UserCreate, UserUpdate
-from oauth2.auth import get_password_hash
-
 
 class UserRepository:
     def create_user(self, db: Session, user: UserCreate) -> User:
@@ -13,8 +11,6 @@ class UserRepository:
         db_user = User(
             username=user.username,
             email=user.email,
-            hashed_password=get_password_hash(user.password),
-            full_name=user.full_name,
         )
         db.add(db_user)
         db.commit()

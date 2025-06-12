@@ -3,3 +3,5 @@
 .env.dev
 .env.test
 .env.prod
+__pycache__/
+*.pyc

@@ -1,12 +1,11 @@
-# Task/app/service/celery_tasks.py
-from celery import shared_task
+from celery_app import celery_app
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from Task.app.model.task import Task
 from Task.app.enum.task_status import TaskStatus
 from datetime import datetime
 
-@shared_task
+@celery_app.task
 def check_due_tasks():
     db = SessionLocal()
     try:

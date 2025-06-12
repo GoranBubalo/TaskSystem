@@ -5,7 +5,7 @@ from sqlalchemy import Enum as SqlEnum
 
 from Task.app.enum.task_priority import TaskPriority
 from Task.app.enum.task_status import TaskStatus
-from Task.app.model.base import Base
+from base import Base
 from uuid_generator.v4_generator import generate_uuid
 
 
